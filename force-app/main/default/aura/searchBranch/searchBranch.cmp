@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:actionOverride,force:hasRecordId,force:lightningQuickAction" controller="branchDataController" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="data" type="Map"/>
+     <aura:attribute name="branchId" type="String"/>
+     <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="filteredData" type="Map"/>
+    <aura:attribute name="columns" type="List"/>
+	  <aura:attribute name="selectedAccts" type="String"/>
+
+    <!-- handlers-->
+    <aura:handler name="init" value="{!this }" action="{!c.init }"/>
+		<lightning:card   class="slds-p-around_medium ">
+            
+            <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container " >
+                   <p class="cSearchBranch select-header">Branch Search</p>
+                         </div>
+            
+    	<span >
+            <div class="slds-size_1-of-4 slds-p-around_medium">
+        	<lightning:input class="slds-size--1-of-1" onchange="{!c.searchTable}" type="search" label="Searh" variant="label-hidden" placeholder="Search Branch Code" aura:id="SearchBox"/>
+            </div>
+            </span>
+            
+    	
+        <lightning:datatable
+            columns="{!v.columns}"
+            data="{!v.filteredData}"
+            keyField="id"
+            onrowselection="{!c.handleSelect}"
+        />
+    <lightning:button variant="brand" label="Save" onclick="{! c.handleClick }" />
+    </lightning:card>
+</aura:component>

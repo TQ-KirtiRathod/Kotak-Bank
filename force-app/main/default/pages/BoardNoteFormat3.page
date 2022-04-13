@@ -1,0 +1,349 @@
+<apex:page StandardController="Case" renderAs="{! renderingService }" extensions="RelatedObjects" showHeader="{!IF(renderingService = 'PDF',false,true)}" 
+           applyHtmlTag="{!IF(renderingService = 'PDF',false,true)}"           
+           lightningStylesheets="{!IF(renderingService = 'PDF',false,true)}">
+    <html>
+        <head>
+            <apex:slds rendered="{!IF(renderingService = 'PDF',false,true)}"/>
+            <style type="text/css" media="print">
+                
+                @page {
+                margin-top: 3cm;
+                padding:2px;
+                margin-bottom: 4cm;
+                counter-increment: pages;                
+                
+                @top-center {
+                content: element(header);
+                }
+                
+                @bottom-left {
+                content: element(footer);
+                }
+                
+                @bottom-right { 
+                content: "Page " counter(page) " of " counter(pages);
+                }
+                
+                @bottom-center{
+                content : element(footer);
+                }
+                
+                
+                }
+                
+                #pageNum:before {
+                content: "Page " counter(page) " of " counter(pages)
+                }
+                
+                div.header
+                {
+                display: block;
+                padding: 10px;
+                position: running(header);
+                }
+                
+                div.footer
+                {
+                display: block;
+                padding: 10px;
+                position: running(footer);
+                }
+                table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-family:"Times New Roman", Times, serif;
+                font-color:"black";
+                } 
+                tr.noBorder td {
+                border: 0;
+                }
+                
+            </style>
+        </head>
+        
+        <!--   Header code -->
+        <body>
+            <div class="header">
+                <table class="logo">
+                    <td align="left" valign="top">
+                        <apex:image url="{!$Resource.KotalLogo}" width="200px" /> 
+                    </td>
+                </table>
+            </div>
+        </body>
+        <div>
+             
+            <div style="text-align:center;font-size: 25px;">
+               <u><apex:outputText value="Approval Note" /></u>
+           </div>
+            <br/>
+            <br/>
+            <div class=".slds-text-body_small"><b>PAC ID: </b><apex:outputText value="{!Case.New_Case_Number__c}"></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Title: </b><apex:outputText value="{!Case.Title__c}"></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Project Type: </b><apex:outputText value="{!Case.Project_Type__c}"></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Project Vertical: </b><apex:outputText value="{!Case.Project_Vertical__c}"></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Background/Existing Process: </b><br/><apex:outputText value="{!Case.Background_Existing_Process__c}" style="white-space: pre-line"></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Name of System: </b><br/><apex:outputText value="{!Case.Name_of_System__c}" escape="false" ></apex:outputText></div><br/>
+            <div class=".slds-text-body_small"><b>Proposed Solution: </b><br/><apex:outputText value="{!Case.Proposed_Solution__c}" escape="false" style="white-space: pre-line"></apex:outputText></div><br/><br/>
+            <div class=".slds-text-body_small"><b>Recommendations: </b><br/><apex:outputText value="{!Case.Recommendations__c}" escape="false" style="white-space: pre-line" ></apex:outputText></div><br/><br/>
+            <div style="page-break-after:always;"></div>
+            <div>
+            <table  width="100%">
+                <tr class="slds-line-height_reset">
+                    <td align="center"><b>TCO Details:</b></td>
+                </tr>
+            </table>
+            <table  width="100%">
+                <thead>
+                    <apex:variable var="rowNo" value="{!0}"/>
+                    <tr>
+                        <th align="center" class=".slds-text-body_small">Sr No.</th>  
+                        <th align="center"><b>Particulars</b></th>
+                        <th align="center"><b>FY1 Cost (Rs.Lacs)</b></th>
+                        <th align="center">FY2 Cost (Rs.Lacs)</th>
+                        <th align="center">FY3 Cost (Rs.Lacs)</th>
+                        <th align="center">Total Cost (Rs.Lacs)</th>
+                    </tr>
+                </thead>
+                <apex:repeat var="tco" value="{!caseTCO }">
+                    <tr>
+                        <td align="center"><apex:variable var="rowNo" value="{!rowNo+1}"/>{!rowNo}</td>
+                        <td align="center">{!tco.Name}</td>
+                        <td align="center">{!tco.FY__c}</td>
+                        <td align="center">{!tco.FY2__c}</td>
+                        <td align="center">{!tco.FY3__c}</td>
+                        <td align="center">{!tco.Total__c}</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            </div>
+            <div>
+            <table  width="100%">
+                <tr>
+                    <td align="center">Grand Total(Rs.Lacs): &nbsp;<apex:outputText value="{!Case.Grand_Total__c}"></apex:outputText></td>
+                </tr>
+            </table>
+            <br/>
+            <br/>
+            <table  width="100%" >
+                <tr>
+                    <td  align="center"><b>Allocation Details:</b></td>
+                </tr>
+            </table>
+            <table  width="100%">
+                <thead>
+                    <apex:variable var="rowNo" value="{!0}"/>
+                    <tr>
+                        <th align="center">Sr No.</th>  
+                        <th align="center" width="15%">LOB</th>
+                        <th align="center" width="20%">%Allocation</th>
+                        <th align="center" width="35%">LOC</th>
+                        <th align="center" width="40%">CC</th>
+                    </tr>
+                </thead>
+                <apex:repeat var="bu" value="{!caseBUList}">
+                    <tr>
+                        <td align="center"><apex:variable var="rowNo" value="{!rowNo+1}"/>{!rowNo}</td>
+                        <td align="left">{!bu.LOB_New__r.name}</td>
+                        <td align="center">{!bu.Allocation__c}</td>
+                        <td align="center">{!bu.LOC_New__r.name}</td>
+                        <td align="center">{!bu.CC_New__r.name}</td>
+                        
+                    </tr>
+                </apex:repeat>
+            </table>
+                </div>
+             <br/>
+       <br/>
+            <b>Remarks:&nbsp;</b><br/> {!Case.Remarks__c} <br/>
+       <br/>
+            <table width="100%" >
+                <tr>
+                    <td  colspan="2" align="center"><b>Reviewer Details </b></td>
+                </tr>
+                 <tr>
+                    <td><b>Reviewed By: &nbsp;</b><apex:outputText value="{!Case.Reviewer__r.Name}"></apex:outputText></td>
+                     <td align="center"><apex:outputText value="{!reviewedDate}"></apex:outputText></td>
+                 
+                </tr>
+            </table>
+            <br/>
+       <br/>
+            <br/>
+            <div>
+                
+            <apex:outputPanel rendered="{!IF(Case.Level_1_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%"  rendered="{!IF(Case.Level_1_Approver_1_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 1 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: &nbsp;</b> <apex:outputText value="{!Case.Level_1_Approver_1_New__c}" rendered="{!IF(Case.Level_1_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst1}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2:  &nbsp;</b><apex:outputText value="{!Case.Level_1_Approver_2_New__c}" rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(Case.Level_1_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3: &nbsp;</b> <apex:outputText value="{!Case.Level_1_Approver_3_New__c}" rendered="{!IF(Case.Level_1_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(Case.Level_1_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(Case.Level_1_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4: &nbsp;</b> <apex:outputText value="{!Case.Level_1_Approver_4_New__c}" rendered="{!IF(Case.Level_1_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(Case.Level_1_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+                </div>
+             <br/>
+       <br/>
+             <div>
+                 
+            <apex:outputPanel rendered="{!IF(Case.Level_2_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%"  rendered="{!IF(Case.Level_2_Approver_1_New__c == null,FALSE,TRUE)}" style="page-break-after:always;">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 2 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: &nbsp; </b><apex:outputText value="{!Case.Level_2_Approver_1_New__c}" rendered="{!IF(Case.Level_2_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst2}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(Case.Level_2_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(Case.Level_2_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2: &nbsp; </b><apex:outputText value="{!Case.Level_2_Approver_2_New__c}" rendered="{!IF(Case.Level_2_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst2}" rendered="{!IF(Case.Level_2_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(Case.Level_2_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3: &nbsp; </b><apex:outputText value="{!Case.Level_2_Approver_3_New__c}" rendered="{!IF(Case.Level_2_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst2}" rendered="{!IF(Case.Level_2_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(Case.Level_2_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4: &nbsp;</b> <apex:outputText value="{!Case.Level_2_Approver_4_New__c}" rendered="{!IF(Case.Level_2_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst2}" rendered="{!IF(Case.Level_2_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+                  </div>  
+             <br/>
+       <br/>
+      <div>
+          
+            
+                <apex:outputPanel rendered="{!IF(Case.Level_3_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%" rendered="{!IF(Case.Level_3_Approver_1_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 3 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: &nbsp; </b><apex:outputText value="{!Case.Level_3_Approver_1_New__c}" rendered="{!IF(Case.Level_3_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst3}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(Case.Level_3_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2: &nbsp; </b><apex:outputText value="{!Case.Level_1_Approver_2_New__c}" rendered="{!IF(Case.Level_3_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst3}" rendered="{!IF(Case.Level_3_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(Case.Level_3_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3: &nbsp; </b><apex:outputText value="{!Case.Level_3_Approver_3_New__c}" rendered="{!IF(Case.Level_3_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst3}" rendered="{!IF(Case.Level_3_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(Case.Level_3_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4: &nbsp; </b><apex:outputText value="{!Case.Level_3_Approver_4_New__c}" rendered="{!IF(Case.Level_3_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst3}" rendered="{!IF(Case.Level_3_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+          </div>
+                 <br/>
+       <br/>
+            <div>
+                
+            
+               <apex:outputPanel rendered="{!IF(Case.Level_4_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%" rendered="{!IF(Case.Level_4_Approver_1_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 4 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: &nbsp;</b> <apex:outputText value="{!Case.Level_4_Approver_1_New__c}" rendered="{!IF(Case.Level_4_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst4}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(Case.Level_4_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(Case.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2: &nbsp; </b><apex:outputText value="{!Case.Level_4_Approver_2_New__c}" rendered="{!IF(Case.Level_4_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst4}" rendered="{!IF(Case.Level_4_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(Case.Level_4_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3: </b>&nbsp;<apex:outputText value="{!Case.Level_4_Approver_3_New__c}" rendered="{!IF(Case.Level_4_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst4}" rendered="{!IF(Case.Level_4_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(Case.Level_4_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4: &nbsp; </b><apex:outputText value="{!Case.Level_4_Approver_4_New__c}" rendered="{!IF(Case.Level_4_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst4}" rendered="{!IF(Case.Level_4_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+                </div>
+                <br/>
+       <br/>
+            <br/>
+            <div>
+            
+                <apex:outputPanel rendered="{!IF(Case.Level_5_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%" rendered="{!IF(Case.Level_5_Approver_1_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 5 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: </b>&nbsp; <apex:outputText value="{!Case.Level_5_Approver_1_New__c}" rendered="{!IF(Case.Level_5_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst5}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(Case.Level_5_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(Case.Level_5_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2: </b>&nbsp; <apex:outputText value="{!Case.Level_5_Approver_2_New__c}" rendered="{!IF(Case.Level_5_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst5}" rendered="{!IF(Case.Level_5_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(Case.Level_5_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3:</b> &nbsp; <apex:outputText value="{!Case.Level_5_Approver_3_New__c}" rendered="{!IF(Case.Level_5_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst5}" rendered="{!IF(Case.Level_5_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(Case.Level_5_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4:</b> &nbsp; <apex:outputText value="{!Case.Level_5_Approver_4_New__c}" rendered="{!IF(Case.Level_5_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst5}" rendered="{!IF(Case.Level_5_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+                   
+            </div>
+        </div>  
+        
+    </html>
+    
+</apex:page>

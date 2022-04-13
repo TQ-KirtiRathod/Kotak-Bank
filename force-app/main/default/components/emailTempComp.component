@@ -1,0 +1,109 @@
+<apex:component controller="emailTemplateController" access="global" >
+    <apex:attribute name="CaseId" type="Id" description="Id of the Case" assignTo="{!caseRecord}"/>
+    <!--<apex:dataTable value="{!TCO}" var="s_account">
+<apex:column>
+<apex:facet name="header">Account Name</apex:facet>
+{!s_account.Name}
+</apex:column>
+</apex:dataTable>-->
+    <html>
+        
+        <head>
+            <style type="text/css" media="print">
+                
+                @page {
+                margin-top: 3cm;
+                padding:2px;
+                margin-bottom: 4cm;
+                counter-increment: pages;                
+                
+                @top-center {
+                content: element(header);
+                }
+                
+                @bottom-left {
+                content: element(footer);
+                }
+                
+                @bottom-right { 
+                content: "Page " counter(page) " of " counter(pages);
+                }
+                
+                @bottom-center{
+                content : element(footer);
+                }
+                
+                
+                }
+                
+                #pageNum:before {
+                content: "Page " counter(page) " of " counter(pages)
+                }
+                
+                div.header
+                {
+                display: block;
+                padding: 10px;
+                position: running(header);
+                }
+                
+                div.footer
+                {
+                display: block;
+                padding: 10px;
+                position: running(footer);
+                }
+                table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-family:"Times New Roman", Times, serif;
+                font-color:"black";
+                } 
+                tr.noBorder td {
+                border: 0;
+                }
+                
+            </style>
+        </head>
+        <div >
+            
+            <table cellpadding="5" style="border-collapse: collapse" width="860" border="1" >
+                <tr>
+                    <td colspan="2" align="center"><b>TCO Details:</b></td>
+                </tr>
+                
+            </table>
+            <table cellpadding="5" style="border-collapse: collapse" width="860" border="1">
+                <thead>
+                    <apex:variable var="rowNo" value="{!0}"/>
+                    <tr>
+                        <!-- <th align="center">Sr No.</th>  
+                        <th align="center" width="30%">Particulars</th>
+                        <th align="center" width="15%">FY1 Cost (Rs.Lacs)</th>
+                        <th align="center" width="15%">FY2 Cost (Rs.Lacs)</th>
+                        <th align="center" width="15%">FY3 Cost (Rs.Lacs)</th>
+                        <th align="center" width="30%">Total Cost (Rs.Lacs)</th>-->
+                        <th align="center">Sr No.</th>
+                        <th align="center">Particulars</th>
+                        <th align="center">FY1 Cost (Rs.Lacs)</th>
+                        <th align="center">FY2 Cost (Rs.Lacs)</th>
+                        <th align="center">FY3 Cost (Rs.Lacs)</th>
+                        <th align="center">Total Cost (Rs.Lacs)</th>
+                    </tr>
+                </thead>
+                <apex:repeat var="tcoObj" value="{!TCO}">
+                    
+                    <tr>
+                        <td align="center"><apex:variable var="rowNo" value="{!rowNo+1}"/>{!rowNo}</td>
+                        <td align="left">{!tcoObj.Name}</td>
+                        <td align="center">{!tcoObj.FY__c}</td>
+                        <td align="center">{!tcoObj.FY2__c}</td>
+                        <td align="center">{!tcoObj.FY3__c}</td>
+                        <td align="center">{!tcoObj.Total__c}</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+        </div>
+    </html>
+    
+</apex:component>

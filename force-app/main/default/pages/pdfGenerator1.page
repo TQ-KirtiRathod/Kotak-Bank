@@ -1,0 +1,62 @@
+<apex:page standardController="Case" renderAs="pdf" ShowHeader="false" applyBodyTag="false" standardStylesheets="false" applyHtmlTag="false">
+    <head>
+        
+        <style>
+            table.gridtable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: Red;
+            }
+            table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: Red;
+            font-weight:bold;
+            
+            }
+            table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: Red;
+            background-color: #ffffff;
+            }
+        </style> 
+        
+    </head>    
+    <!-- <img url="{!$Resource.KotakLogo}" width="20%"/> */
+<div class="header">
+<Left><img src="{!$Resource.Kotak}"/></Left>
+<img src="https://kotakmahindrabank123--kotakmbdev.lightning.force.com/lightning/setup/StaticResources/page?address=%2F081720000001yF3"/>
+<apex:image value="{!URLFOR($Resource.Kotak)}"/>
+</div> -->
+    
+    <div class="header">
+        <Left><img url="https://kotakmahindrabank123--kotakmbdev.lightning.force.com/lightning/setup/StaticResources/page?address=%2F081720000001yF3"/>
+        </Left>
+    </div>
+    
+    <h1>Welcome to kotak bank</h1>
+    <p>Case Number, <b><apex:outputText value=" {!Case.New_Case_Number__c}"/></b>, has been approved from all approvals</p>
+    <p>Your case details are:</p>
+    
+    <body>
+        <table class="gridtable" style="padding:0px;margin:0px;" border="2" cellpadding="1" cellspacing="0" background-color= "Red">
+            <tr><th>Case Status</th>
+                <td><apex:outputText value="{!Case.Status__c}"/></td>
+            </tr>
+            <tr><th>Case Rep</th>
+                <td><apex:outputText value="{!Case.Owner.Name}"/></td>
+            </tr>
+            <tr><th>Created Date</th>
+                <td><apex:outputText value="{0,date,long}">
+                    <apex:param value="{!Case.CreatedDate}"/>
+                    </apex:outputText></td>
+            </tr>
+        </table>
+    </body>
+    
+</apex:page>

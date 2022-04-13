@@ -1,0 +1,7 @@
+<aura:component controller="tcocontroller" implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+   <aura:attribute name="tcoList" type="List" />
+    <aura:handler name="init" value="{! this }" action="{!c.init}"/>
+     
+  
+	
+</aura:component>

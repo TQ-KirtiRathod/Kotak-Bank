@@ -1,0 +1,104 @@
+<apex:component controller="emailTemplateController" access="global" >
+    <apex:attribute name="CaseId" type="Id" description="Id of the Case" assignTo="{!caseRecord}"/>
+ <html>
+        
+        <head>
+            <style type="text/css" media="print">
+                
+                @page {
+                margin-top: 3cm;
+                padding:2px;
+                margin-bottom: 4cm;
+                counter-increment: pages;                
+                
+                @top-center {
+                content: element(header);
+                }
+                
+                @bottom-left {
+                content: element(footer);
+                }
+                
+                @bottom-right { 
+                content: "Page " counter(page) " of " counter(pages);
+                }
+                
+                @bottom-center{
+                content : element(footer);
+                }
+                
+                
+                }
+                
+                #pageNum:before {
+                content: "Page " counter(page) " of " counter(pages)
+                }
+                
+                div.header
+                {
+                display: block;
+                padding: 10px;
+                position: running(header);
+                }
+                
+                div.footer
+                {
+                display: block;
+                padding: 10px;
+                position: running(footer);
+                }
+                table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-family:"Times New Roman", Times, serif;
+                font-color:"black";
+                } 
+                tr.noBorder td {
+                border: 0;
+                }
+                
+            </style>
+        </head>
+       <!--<div >
+             <apex:outputPanel rendered="{!IF(record.Level_1_Approver_1_New__c == null,FALSE,TRUE)}">
+            <table  width="100%"  rendered="{!IF(record.Level_1_Approver_1_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td colspan="2" align="center"><b>Level 1 Approvers</b></td>
+                </tr>
+                <tr>
+                    <td><b>Approver 1: &nbsp;</b> <apex:outputText value="{!record.Level_1_Approver_1_New__c}" rendered="{!IF(record.Level_1_Approver_1_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center"> <apex:outputText value="{!dtIst1}"></apex:outputText></td>
+                </tr>
+                <apex:outputPanel rendered="{!IF(record.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                <tr rendered="{!IF(record.Level_1_Approver_2_New__c == null,FALSE,TRUE)}">
+                    <td><b>Approver 2:  &nbsp;</b><apex:outputText value="{!record.Level_1_Approver_2_New__c}" rendered="{!IF(record.Level_1_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(record.Level_1_Approver_2_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!IF(record.Level_1_Approver_3_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 3: &nbsp;</b> <apex:outputText value="{!record.Level_1_Approver_3_New__c}" rendered="{!IF(record.Level_1_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(record.Level_1_Approver_3_New__c == null,FALSE,TRUE)}"></apex:outputText></td>   
+                </tr>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(record.Level_1_Approver_4_New__c == null,FALSE,TRUE)}">
+                <tr>
+                    <td><b>Approver 4: &nbsp;</b> <apex:outputText value="{!record.Level_1_Approver_4_New__c}" rendered="{!IF(record.Level_1_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                    <td align ="center" ><apex:outputText value="{!dtIst1}" rendered="{!IF(record.Level_1_Approver_4_New__c == null,FALSE,TRUE)}"></apex:outputText></td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+            </apex:outputPanel>
+                </div>
+             <br/>
+       <br/>-->
+           
+           
+            
+              
+            
+        
+    </html>
+    
+
+</apex:component>

@@ -1,0 +1,214 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:actionOverride,force:hasRecordId,force:lightningQuickAction" access="global" >
+	 <aura:attribute name="displaylevel1" type="boolean" default="false" description="Displays Save button if changed"/>
+    <aura:attribute name="displaylevel2" type="boolean" default="false" description="Displays Save button if changed"/>
+    <aura:attribute name="displaylevel3" type="boolean" default="false" description="Displays Save button if changed"/>
+    <aura:attribute name="displaylevel4" type="boolean" default="false" description="Displays Save button if changed"/>
+    <aura:attribute name="displaylevel5" type="boolean" default="false" description="Displays Save button if changed"/>
+    <aura:attribute name="level1approver1" type="String" />
+     <aura:attribute name="level1approver2" type="String" />
+     <aura:attribute name="level1approver3" type="String" />
+     <aura:attribute name="level1approver4" type="String" />
+    <aura:attribute name="level2approver1" type="String" />
+     <aura:attribute name="level2approver2" type="String" />
+     <aura:attribute name="level2approver3" type="String" />
+     <aura:attribute name="level2approver4" type="String" />
+    <aura:attribute name="level3approver1" type="String" />
+     <aura:attribute name="level3approver2" type="String" />
+     <aura:attribute name="level3approver3" type="String" />
+     <aura:attribute name="level3approver4" type="String" />
+    <aura:attribute name="level4approver1" type="String" />
+     <aura:attribute name="level4approver2" type="String" />
+     <aura:attribute name="level4approver3" type="String" />
+     <aura:attribute name="level4approver4" type="String" />
+    <aura:attribute name="level5approver1" type="String" />
+     <aura:attribute name="level5approver2" type="String" />
+     <aura:attribute name="level5approver3" type="String" />
+     <aura:attribute name="level5approver4" type="String" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:navigation aura:id="navService"/>
+    <div class="">
+     
+        <lightning:card  iconName="standard:Lead" class="slds-p-around_medium ">
+            <lightning:recordEditForm aura:id="leadCreateForm" objectApiName="Case" onsubmit="{!c.handleOnSubmit}" onsuccess="{!c.handleSuccess}">
+                <lightning:messages />
+                 <div style="text-align: center; padding-bottom: var(--lwc-spacingMedium,1rem); font-size: 20px; color:#00264c; font-weight:bold;">New Case: Board Note</div>
+                 <div class="field-sub-title-new slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Project Information</p>
+                         </div>
+               <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Title__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Project_Type__c" required = "true"></lightning:inputField>
+                    </div>
+                   
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Project_Verticals__c" value="a0572000002cqKbAAI"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Background_Existing_Process__c" required = "true"></lightning:inputField>
+                    </div>
+                   
+                </div>
+                 <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Name_of_System__c" required = "true"></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Proposed_Solution__c" required = "true"></lightning:inputField>
+                    </div>
+                   
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Recommendations__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Remarks__c"></lightning:inputField>
+                    </div>
+                </div>
+                
+                
+                 <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Reviewer/Approver Information</p>
+                         </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Reviewer__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Approval_Level__c" aura:id="levelValue" required = "true" onchange="{!c.onPicklistChange}"></lightning:inputField>
+                    </div>
+                </div>
+                 <aura:if isTrue="{!v.displaylevel1}">
+                     <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Level 1</p>
+                         </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Approval_Level_1__c" aura:id="level1Value" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Approval_Level_2__c" aura:id="level2Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Approval_Level_3__c"  aura:id="level3Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Approval_Level_4__c" aura:id="level4Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                     
+                 </aura:if>
+              
+                <aura:if isTrue="{!v.displaylevel2}">
+                     <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Level 2</p>
+                           </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level2_Approver1__c" aura:id="level11Value" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level2_Approver2__c" aura:id="level22Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                    
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_2_Approver_3__c"  aura:id="level33Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level2_Approver4__c" aura:id="level44Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                   
+                 </aura:if>
+                
+                <aura:if isTrue="{!v.displaylevel3}">
+                     <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Level 3</p>
+                          </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_3_Approver_1__c" aura:id="level111Value"  required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_3_Approver_2__c" aura:id="level222Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_3_Approver_3__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_3_Approver_4__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                    
+                 </aura:if>
+                
+                <aura:if isTrue="{!v.displaylevel4}">
+                     <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Level 4</p>
+                          </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_4_Approver_1__c" aura:id="level1111Value" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_4_Approver_2__c" aura:id="level2222Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_4_Approver_3__c" aura:id="level3333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_4_Approver_4__c" aura:id="level4444Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                    
+                 </aura:if>
+                
+                <aura:if isTrue="{!v.displaylevel5}">
+                    <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Level 5</p>
+                        </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_5_Approver_1__c" aura:id="level11111Value" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_5_Approver_2__c" aura:id="level22222Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_5_Approver_3__c"  aura:id="level33333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Level_5_Approver_4__c" aura:id="level44444Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                     
+                 </aura:if>
+                
+                
+                
+              
+               
+                        <div style="text-align: right; border-top: 1px solid #ccc; padding: 20px 20px 0 20px;">
+                             <button type="" label="Cancel" variant="brand" iconPosition="right" class=" slds-button slds-button_neutral" onclick = "{!c.cancel}">Cancel</button>
+                            <button type="" label="Save" variant="brand" iconPosition="right" class="slds-button slds-button_brand">Save</button>
+                           
+                     </div>
+            </lightning:recordEditForm>
+        </lightning:card>
+    </div>
+</aura:component>

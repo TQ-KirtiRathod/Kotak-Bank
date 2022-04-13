@@ -1,0 +1,29 @@
+<aura:component
+    implements="flexipage:availableForRecordHome,force:hasRecordId">
+        
+    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Case">
+        <!-- Name field on account -->
+        <div class="field-sub-title-new slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" >
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">TCO Information</p>
+                         </div>
+         <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+        <lightning:outputField fieldName="FY1_Total__c"/>
+             </div>
+               <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+        <!-- Nickname__c field on account -->
+        <lightning:outputField fieldName="FY2_Total__c"/>
+             </div>
+        </div>
+        <!-- MobilePhone field on contact -->
+         <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+        <lightning:outputField fieldName="FY3_Total__c"/>
+             </div>
+              <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+        <!-- Contact_Nickname__c field on contact -->
+        <lightning:outputField fieldName="Grand_Total__c" />
+             </div>
+        </div>
+    </lightning:recordViewForm>
+</aura:component>

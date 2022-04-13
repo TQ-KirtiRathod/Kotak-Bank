@@ -1,0 +1,340 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:actionOverride,force:hasRecordId,force:lightningQuickAction" access="global" controller="branchDataController">
+   <aura:attribute name="data" type="Map"/>
+     <aura:attribute name="branchId" type="String"/>
+     <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="filteredData" type="Map"/>
+    <aura:attribute name="columns" type="List"/>
+	  <aura:attribute name="selectedAccts" type="String"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+     <aura:handler name="init" value="{!this }" action="{!c.init }"/>
+    <lightning:navigation aura:id="navService"/>
+    <div class="">
+     
+        <lightning:card  iconName="standard:Lead" class="slds-p-around_medium ">
+            <lightning:recordEditForm aura:id="leadCreateForm" objectApiName="Case" onsubmit="{!c.handleOnSubmit}" onsuccess="{!c.handleSuccess}" >
+                <lightning:messages />
+                 <div style="text-align: center; padding-bottom: var(--lwc-spacingMedium,1rem); font-size: 20px; color:#00264c; font-weight:bold;">New Case: Commercial Assets UE</div>
+                 <div class="field-sub-title-new slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Case Information</p>
+                         </div>
+               <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Status__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Priority" ></lightning:inputField>
+                    </div>
+                   
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Identified_At__c" required = "true" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Business_Line__c" required = "true"></lightning:inputField>
+                    </div>
+                   
+                </div>
+                 <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Business_Segment__c" required = "true" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                 <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Events Information</p>
+                         </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Events_Details__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Date_of_Occurence__c" aura:id="levelValue" required = "true" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Nature_of_Events__c" required = "true" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Event_Type__c" aura:id="levelValue" required = "true" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Date_of_Detection__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Date_of_UE_Reporting__c" aura:id="levelValue" required = "true" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Event_Dates__c" required = "true" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                   <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Insurance Information</p>
+                         </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Action_Taken__c" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Value_Recovered__c" aura:id="levelValue" required = "true"></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="From_Recovery__c" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Recovery_Amount__c" aura:id="levelValue" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Recovery_Date__c" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Amount_recovered_from_insurance__c" aura:id="levelValue" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Risk_Amount__c" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Reason_For_Less_Insurance_Recovery__c" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Reason_of_delay__c"  required = "true"></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Insurance_Company__c" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Brief_History__c" required = "true"></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Date_of_Booking_Actual_Loss__c"  required = "true"></lightning:inputField>
+                    </div>
+                </div>
+
+                <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Fraud Information</p>
+                         </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Actual_Loss_Amount__c" aura:id="levelValue" required = "true" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Fraud_Committed_reason__c" aura:id="levelValue" required = "true"></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Step_Taken__c" aura:id="levelValue" required = "true"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Provision_Amount__c" required = "true"></lightning:inputField>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Is_Department_enquiry_conducted__c" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Designation__c" ></lightning:inputField>
+                    </div>
+                </div>
+                
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Complaint_with_Police__c" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Present_position_of_the_case__c" ></lightning:inputField>
+                    </div>
+                </div>
+
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Fraud_occurred_in_a_borrowel_account__c" aura:id="level1Value"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Errant_Employee_Name__c" aura:id="level2Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Details_of_the_enquiry__c"  aura:id="level3Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Type_of_Loss__c" aura:id="level4Value"  required = "true" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Final_Action_taken__c"  aura:id="level3Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Action_Against_Vendor__c" aura:id="level4Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Details_of_any_agent__c"  aura:id="level3Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Fraud_Number__c" aura:id="level4Value"  ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Date_of_reference__c"  aura:id="level3Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Total_amount_involved__c" aura:id="level4Value" required = "true" ></lightning:inputField>
+                    </div>
+                     </div>
+
+                   
+
+                     <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Additional Information</p>
+                          </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Employee_ID__c" aura:id="level111Value"  ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Amount_recovered_from_chargeback__c" aura:id="level222Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Potential_Liability__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Vendor_Name__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Value_Saved_Hawkeye__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Amount_recovered_from_party_parties__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Vigilance_Activity__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Details_of_staff_side_action__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Amount_written_off__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Reason_for_Initiating_a_vigilance_visit__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Engineering_Req_Number__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Action_Taken_as_per_Grid__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="SLA_Violation__c"  aura:id="level333Value" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Reason_For_Closed__c" aura:id="level444Value" ></lightning:inputField>
+                    </div>
+                     </div>
+                <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Department__c"  aura:id="level33Value" required = "true"></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Sub_Department__c" aura:id="level44Value" required = "true" ></lightning:inputField>
+                    </div>
+                     </div>
+                  <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container" style="background-color: #e1581c; color: #fff; font-weight:bold;">
+                    <p class="cNewCustButton field-title slds-p-horizontal_medium" title="Field 4">Branch Information</p>
+                           </div>
+                 <div class="slds-grid">
+            <div class="slds-size_1-of-4 slds-p-around_medium">
+        	<lightning:input class="slds-size--1-of-1" onchange="{!c.searchTable}" type="search" label="Searh" variant="label-hidden" placeholder="Search Branch Code" aura:id="SearchBox"/>
+            </div>
+                </div>
+         <lightning:datatable
+            columns="{!v.columns}"
+            data="{!v.filteredData}"
+            keyField="id"
+            onrowselection="{!c.handleSelect}"
+            maxRowSelection="{! v.maxRowSelection }"
+        />
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Name_of_Branch__c" aura:id="branchNameValue" disabled="true" required = "true" ></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="State__c" aura:id="stateValue" disabled="true" required = "true"></lightning:inputField>
+                    </div>
+                     </div>
+                    
+                     <div class="slds-grid">
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="District__c"  aura:id="districtValue" disabled="true" required = "true" ></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Place_City__c" aura:id="cityValue" disabled="true" required = "true" ></lightning:inputField>
+                    </div>
+                     </div>
+                
+            
+               
+                    
+                
+                               <div style="text-align: right; border-top: 1px solid #ccc; padding: 20px 20px 0 20px;">
+                             <button type="" label="Cancel" variant="brand" iconPosition="right" class=" slds-button slds-button_neutral" onclick = "{!c.cancel}">Cancel</button>
+                            <button type="" label="Save" variant="brand" iconPosition="right" class="slds-button slds-button_brand" >Save</button>
+                     </div>
+            </lightning:recordEditForm>
+            
+ 
+    	
+   <!-- <lightning:button variant="brand" label="Save" onclick="{!c.handleClick }" /> -->
+            
+		
+    
+        </lightning:card>
+    </div>
+	
+</aura:component>

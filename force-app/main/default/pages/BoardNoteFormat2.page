@@ -1,0 +1,346 @@
+<apex:page StandardController="Case" renderAs="pdf" extensions="RelatedObjects" cache="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" showHeader="false" sidebar="false" contentType="application/pdf" >
+
+<html>
+   
+    <head>
+        <style type="text/css" media="print">
+
+           @page {
+                    margin-top: 3cm;
+                     padding:2px;
+                    margin-bottom: 4cm;
+                    counter-increment: pages;                
+        
+                    @top-center {
+                        content: element(header);
+                    }
+            
+                    @bottom-left {
+                        content: element(footer);
+                    }
+                    
+                    @bottom-right { 
+                    content: "Page " counter(page) " of " counter(pages);
+                }
+                    
+                    @bottom-center{
+                        content : element(footer);
+                    }
+                    
+            
+                }
+           
+            #pageNum:before {
+                content: "Page " counter(page) " of " counter(pages)
+            }
+            
+            div.header
+            {
+                display: block;
+                padding: 10px;
+                position: running(header);
+            }
+            
+            div.footer
+            {
+                display: block;
+                padding: 10px;
+                position: running(footer);
+            }
+             table, th, td {
+                       border: 1px solid black;
+                       border-collapse: collapse;
+                     font-family:"Arial Unicode MS";
+        } 
+          tr.noBorder td {
+            border: 0;
+          }
+            
+        </style>
+    </head>
+    
+    <!--   Header code -->
+<!--     <body>
+        <div class="header">
+            <table columns="1" width="100%" border="0"  cellspacing="1.5" cellpadding="1.5">
+                <td align="left" valign="top">
+                    <apex:image url="{!$Resource.Kotak}" width="95px" style="padding-right:10px;padding-top:20px;"/>
+                </td>
+            </table>
+        </div>
+    </body>-->
+    <div >
+        
+             
+         <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Approval Note</td>
+             </tr>
+             
+              
+          </table>
+          
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>PAC ID: <apex:outputText value="{!Case.New_Case_Number__c}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Title: <apex:outputText value="{!Case.Title__c}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+           
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                    <th width="50%">Project Type</th>
+            
+                   <th width="50%" align="center">Project Vertical</th>
+                     
+                 </tr>
+                 <tr>
+                     <td>Type: {!Case.Project_Type__c} </td>
+                     <td>Vertical: {!Case.Project_Vertical__c} </td>
+                 </tr>
+             
+          </table>
+           <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Allocation Details</td>
+             </tr>
+             
+              
+          </table>
+         <table border="1" width="100%" cellpadding="0" cellspacing="0" style="-Fs-table-paginate: paginate; color:#1F4E79; font-size:16px;">
+         <thead>
+          <apex:variable var="rowNo" value="{!0}"/>
+         <tr>
+             <th align="center">Sr No.</th>  
+             <th align="center" width="15%">Buisness Unit</th>
+             <th align="center" width="20%">%Allocation</th>
+             <th align="center" width="35%">LOC</th>
+             <th align="center" width="40%">CC</th>
+         </tr>
+         </thead>
+         <apex:repeat var="bu" value="{!caseBUList}">
+        <tr>
+                 <td align="center"><apex:variable var="rowNo" value="{!rowNo+1}"/>{!rowNo}</td>
+                 <td align="left">{!bu.Bussiness_unit__c}</td>
+                 <td align="center">{!bu.Allocation__c}</td>
+                 <td align="center">{!bu.LOC__c}</td>
+                 <td align="center">{!bu.CC__c}</td>
+                 
+                 </tr>
+                 </apex:repeat>
+         </table>
+         <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr style=" font-size:20x;color:#1F4E79;">
+                     <td>Background/Existing Process:{!Case.Background_Existing_Process__c}<br/><br/><br/><br/> </td>
+                     
+                 </tr>
+                 <tr><td colspan="2" align="center">  <br/>  </td></tr>
+                 <tr>
+                     <td>Name of System:{!Case.Name_Of_System__c}<br/>
+                     </td>
+                 </tr>
+                 <tr><td colspan="2" align="center">  <br/>  </td></tr>
+                 
+                 <tr style=" font-size:20x;color:#1F4E79;">
+                     <td>Proposed Solution:{!Case.Proposed_Solution__c}<br/><br/><br/><br/> </td>
+                     
+                 </tr>
+                 <tr><td colspan="2" align="center">  <br/>  </td></tr>
+                 <tr>
+                     <td>Recommendations:{!Case.Recommendations__c}<br/><br/><br/><br/>
+                     </td>
+                 </tr>
+             
+          </table>
+          <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">TOC Details</td>
+             </tr>
+              
+          </table>
+          <table border="1" width="100%" cellpadding="0" cellspacing="0" style="-Fs-table-paginate: paginate; color:#1F4E79; font-size:16px;">
+         <thead>
+          <apex:variable var="rowNo" value="{!0}"/>
+         <tr>
+             <th align="center">Sr No.</th>  
+             <th align="center" width="30%">TCO Name</th>
+             <th align="center" width="15%">FY1</th>
+             <th align="center" width="15%">FY2</th>
+             <th align="center" width="15%">FY3</th>
+             <th align="center" width="30%">TOTAL</th>
+         </tr>
+         </thead>
+         <apex:repeat var="tco" value="{!caseTCO }">
+        <tr>
+                 <td align="center"><apex:variable var="rowNo" value="{!rowNo+1}"/>{!rowNo}</td>
+                 <td align="left">{!tco.Name}</td>
+                 <td align="center">{!tco.FY__c}</td>
+                 <td align="center">{!tco.FY2__c}</td>
+                 <td align="center">{!tco.FY3__c}</td>
+                 <td align="center">{!tco.Total__c}</td>
+                 </tr>
+                 </apex:repeat>
+         </table><br/><br/><br/><br/><br/>
+         
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Remark: {!Case.Remarks__c}<br/><br/></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Reviewer: <apex:outputText value="{!Case.Reviewer__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+           <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Level One Approvers</td>
+             </tr>
+             
+              
+          </table>
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Approver 1 : <apex:outputText value="{!Case.Approval_Level_1__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 2 : <apex:outputText value="{!Case.Approval_Level_2__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Approver 3 : <apex:outputText value="{!Case.Approval_Level_3__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 4 : <apex:outputText value="{!Case.Approval_Level_4__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+          <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Level Two Approvers</td>
+             </tr>
+             
+              
+          </table>
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Approver 1 : <apex:outputText value="{!Case.Level2_Approver1__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 2 : <apex:outputText value="{!Case.Level2_Approver2__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Approver 3 : <apex:outputText value="{!Case.Level_2_Approver_3__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 4 : <apex:outputText value="{!Case.Level2_Approver4__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+           <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Level Three Approvers</td>
+             </tr>
+             
+              
+          </table>
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Approver 1 : <apex:outputText value="{!Case.Level_3_Approver_1__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 2 : <apex:outputText value="{!Case.Level_3_Approver_2__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Approver 3 : <apex:outputText value="{!Case.Level_3_Approver_3__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 4 : <apex:outputText value="{!Case.Level_3_Approver_4__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+           <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Level Four Approvers</td>
+             </tr>
+             
+              
+          </table>
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Approver 1 : <apex:outputText value="{!Case.Level_4_Approver_1__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 2 : <apex:outputText value="{!Case.Level_4_Approver_2__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Approver 3 : <apex:outputText value="{!Case.Level_4_Approver_3__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 4 : <apex:outputText value="{!Case.Level_4_Approver_4__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table><br/><br/><br/><br/><br/><br/><br/>
+          <table width="100%" style="font-size:18px;color:#1F4E79;" >
+             <tr>
+                 <td colspan="2" align="center">Level Five Approvers</td>
+             </tr>
+             
+              
+          </table>
+           <table width="100%" style=" font-size:18px;color:#1F4E79;">
+           
+                 <tr>
+                     <td>Approver 1 : <apex:outputText value="{!Case.Level_5_Approver_1__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 2 : <apex:outputText value="{!Case.Level_5_Approver_2__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Approver 3 : <apex:outputText value="{!Case.Level_5_Approver_3__r.Name}"></apex:outputText></td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Approver 4 : <apex:outputText value="{!Case.Level_5_Approver_4__r.Name}"></apex:outputText>
+                     </td>
+                 </tr>
+             
+          </table>
+      
+      
+      
+         
+</div>
+</html>
+</apex:page>

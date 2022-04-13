@@ -1,0 +1,67 @@
+<aura:component 
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" >
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="comment" type="String" default="" />
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+   <lightning:card title="Approval Details">
+  <lightning:recordEditForm aura:id="leadCreateForm" objectApiName="Case">
+
+   <div class="slds-grid slds-wrap">
+  <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+    <lightning:input name="input1" label="Sr No." />
+  </div>
+  <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+    <lightning:input name="input1" label="Case Owner" />
+  </div>
+  <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+    <lightning:input name="input1" label="Status" />
+  </div>
+  <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+    <lightning:input name="input1" label="Submitter" />
+  </div>
+       <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+    <lightning:input name="input1" label="Assigned to" />
+  </div>
+       
+</div>
+    </lightning:recordEditForm>
+   </lightning:card> 
+    <lightning:button  label="Approved" variant="brand"/>
+     <lightning:button label="Reject" variant="brand" />
+  <!--  <lightning:buttonGroup class="slds-m-right_small" variant="brand">
+        <lightning:button label="Approved" />
+        <lightning:button label="Reject"  />
+        
+    </lightning:buttonGroup>-->
+    
+    
+    <!-- <div class="slds-col">
+    <lightning:input aura:id="Sr.No" name="Sr.No" label="Sr.No" required="true" />
+    <lightning:input aura:id="Case Owner" name="Case Owner" label="Case Owner" />
+    <lightning:input aura:id="Submitter" name="Submitter" label="Submitter" />
+    <lightning:input aura:id="Assign To" name="Assign To" label="Assign To" />
+    <lightning:select aura:id="Status" name="Status" label="Status">
+     <option value="status">Status</option>
+    </lightning:select>
+    <lightning:button variant="neutral" label="Cancel" />
+    <lightning:button variant="brand" label="Submit" />
+    </div>
+
+   ////// <div class="slds-p-around_medium">
+           <lightning:recordEditForm objectApiName="Account"
+                                         onsubmit="{!c.handleSubmit}">
+        <lightning:messages />
+        <lightning:inputField fieldName="Sr.No" />
+        <lightning:inputField fieldName="Case Owner " />
+        <lightning:inputField fieldName="Case Status" />
+        <lightning:inputField fieldName="Submitter" />
+        <lightning:inputField fieldName="Assign To" />
+        <lightning:button type="Approved" name="Approved" label="Approved" class="slds-m-top_medium"/>
+        <lightning:button type="Reject" name="Reject" label="Reject" class="slds-m-top_medium"/>
+        <lightning:button type="Reassign" name="Reassign" label="Reassign" class="slds-m-top_medium"/>
+        </lightning:recordEditForm>
+    </div>-->
+    
+</aura:component>

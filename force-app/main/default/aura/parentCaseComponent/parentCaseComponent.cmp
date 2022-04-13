@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	 <aura:attribute name="ue" type="String" />
+     <aura:attribute name="boardnote" type="String" />
+    
+     <aura:attribute name="openParentComponent" type="boolean" default="true"></aura:attribute>
+    <aura:attribute name="openComponent" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="UeopenComponent" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Commercial Assets UE', 'value': 'option1', 'id': 'ue'},
+                                                        {'label': 'Board Note', 'value': 'option2', 'id': 'Board Note'}
+                                                        ]"/>
+    <aura:attribute name="value" type="String" default="option1"/>
+     <aura:if isTrue="{!v.openParentComponent}">
+    <section aura:id="exampleModal" role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true">
+        <div  class="slds-modal__container">
+            <div aura:id="MainDiv" class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Case</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="cParentCaseComponent select-header ">Select a record type</div>
+                <div class=" cParentCaseComponent radiobutton-select"><lightning:radioGroup options="{! v.options }"
+                                                                                        value="{! v.value }"
+                                                                                        onchange="{! c.handleChange }"
+                                                                                        type="radio"/></div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick="{!c.hideExampleModal}" >Cancel</button>
+                <button class="slds-button slds-button_brand" onclick="{!c.gotoURL}">Next</button>
+            </div>
+        </div>
+    </section>
+    </aura:if>
+    <aura:if isTrue="{!v.openComponent}">
+     <c:newCaseComponent />
+    </aura:if>
+     <aura:if isTrue="{!v.UeopenComponent}">
+     <c:newCaseUE />
+    </aura:if>
+</aura:component>

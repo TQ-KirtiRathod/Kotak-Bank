@@ -1,0 +1,18 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+<lightning:card title="Approval Details" iconName="standard:ProcessInstance" class="slds-p-around_medium">
+            <lightning:recordEditForm aura:id="ApprovalForm" objectApiName="ProcessInstance" >
+                <lightning:messages />
+                 <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="CaseNumber"></lightning:inputField>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="OwnerId" aura:id="levelValue"></lightning:inputField>
+                    </div>
+                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <lightning:inputField fieldName="Status__c" aura:id="levelValue"></lightning:inputField>
+                    </div>
+                </div>
+    </lightning:recordEditForm>
+    </lightning:card>
+</aura:component>
